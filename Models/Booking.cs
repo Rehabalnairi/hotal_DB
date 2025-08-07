@@ -17,8 +17,8 @@ namespace hotal_DB.Models
 
         public Guest Guest { get; set; }
 
-        [Required] // ✅ Add this line
-        public int RoomId { get; set; } 
+        [Required]
+        public int RoomId { get; set; }
 
         public Room Room { get; set; }
 
@@ -30,5 +30,8 @@ namespace hotal_DB.Models
 
         [Required]
         public DateTime EndDate { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; }
+
     }
 }

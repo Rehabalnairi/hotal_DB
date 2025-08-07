@@ -8,17 +8,21 @@ using System.Threading.Tasks;
 
 namespace hotal_DB.Models
 {
-     public class Room
+    public class Room
     {
         [Key]
-        public int roomNumber { get; set; }
-        [Required]
-        public string roomType { get; set; }
-        [Required,]
-        [Range(10,1000)]
-        public double price { get; set; }
-        [Required]
-        public bool isAvailable { get; set; }
+        public int RoomNumber { get; set; }
 
+        [Required]
+        public string RoomType { get; set; }
+
+        [Required]
+        [Range(10, 1000)]
+        public double Price { get; set; }
+
+        [Required]
+        public bool IsAvailable { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

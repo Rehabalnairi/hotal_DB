@@ -15,19 +15,23 @@ namespace hotal_DB.Models
         public int Id { get; set; }
 
         [Required]
-        public int GuestId { get; set; } //  Changed from string to int
+        public int GuestId { get; set; }  
         [ForeignKey("GuestId")]
         public Guest Guest { get; set; }
 
         [Required]
-        public int BookingId { get; set; } //
+        public int BookingId { get; set; } 
         [ForeignKey("BookingId")]
         public Booking Booking { get; set; }
 
-        [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]
+        public int RoomId { get; set; }
+        [ForeignKey("RoomId")]
+        public Room Room { get; set; }
+
+        [Range(1, 5)]
         public int Rating { get; set; }
 
-        [MaxLength(500, ErrorMessage = "Comment cannot exceed 500 characters")]
+        [MaxLength(500)]
         public string Comment { get; set; }
     }
 }

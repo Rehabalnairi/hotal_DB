@@ -39,6 +39,11 @@ namespace hotal_DB.Data
                 .HasOne(r => r.Guest)
                 .WithMany(g => g.Reviews)
                 .HasForeignKey(r => r.GuestId);
+            modelBuilder.Entity<Room>()
+               .HasMany(r => r.Bookings)
+               .WithOne(b => b.Room)
+               .HasForeignKey(b => b.RoomId);
+
         }
 
     }
