@@ -17,6 +17,9 @@ namespace hotal_DB.Models
 
         public Guest Guest { get; set; }
 
+        [Required] // ✅ Add this line
+        public int RoomId { get; set; } 
+
         public Room Room { get; set; }
 
         [Required, Range(10, 90)]
