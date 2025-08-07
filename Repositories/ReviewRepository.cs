@@ -8,7 +8,7 @@ using hotal_DB.Data;
 
 namespace hotal_DB.Repositories
 {
-     public class ReviewRepository
+    public class ReviewRepository : IReviewRepository
     {
         private readonly HotelContext _context;
 
@@ -16,6 +16,7 @@ namespace hotal_DB.Repositories
         {
             _context = context;
         }
+        // Add a new review
         public void AddReview(Review review)
         {
             _context.Reviews.Add(review);
