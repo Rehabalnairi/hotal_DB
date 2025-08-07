@@ -8,7 +8,7 @@ using hotal_DB.Models;
 
 namespace hotal_DB.Repositories
 {
-    class RoomRepostory
+    class RoomRepostory : IRoomRepostory
 
     {
         private readonly HotelContext _context;
