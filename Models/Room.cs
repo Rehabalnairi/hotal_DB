@@ -24,5 +24,6 @@ namespace hotal_DB.Models
         public bool IsAvailable { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }
