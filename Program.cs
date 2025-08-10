@@ -316,7 +316,7 @@ namespace hotal_DB
                         Console.WriteLine("Review deleted if existed.");
                     }
                     else
-                    {
+                    { 
                         Console.WriteLine("Invalid input.");
                     }
                     break;
