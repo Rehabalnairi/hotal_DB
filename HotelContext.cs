@@ -1,58 +1,28 @@
 ﻿using hotal_DB.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 namespace hotal_DB.Data
 {
-    //  DbContext Factory 
-    public class HotelContextFactory : IDesignTimeDbContextFactory<HotelContext>
+    public static class FileHotelContext
     {
-        public HotelContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<HotelContext>();
-            optionsBuilder.UseSqlServer("Server=.;Database=HotelDB;Trusted_Connection=True;");
+        private static string filePath = "hotelData.json";
 
-            return new HotelContext(optionsBuilder.Options);
+        public static List<Guest> LoadGuests()
+        {
+            if (!File.Exists(filePath))
+                return new List<Guest>();
+
+            var json = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<Guest>>(json) ?? new List<Guest>();
         }
-    }
 
-    // DbContext
-    public class HotelContext : DbContext
-    {
-        public DbSet<Guest> Guests { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Review> Reviews { get; set; }
-
-        public HotelContext(DbContextOptions<HotelContext> options)
-           : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public static void SaveGuests(List<Guest> guests)
         {
-            modelBuilder.Entity<Guest>()
-                .HasMany(g => g.Bookings)
-                .WithOne(b => b.Guest)
-                .HasForeignKey(b => b.GuestId);
-
-            modelBuilder.Entity<Room>()
-                .HasMany(r => r.Bookings)
-                .WithOne(b => b.Room)
-                .HasForeignKey(b => b.RoomId);
-
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Guest)
-                .WithMany(g => g.Bookings)
-                .HasForeignKey(b => b.GuestId);
-
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Room)
-                .WithMany(r => r.Bookings)
-                .HasForeignKey(b => b.RoomId);
-
-            modelBuilder.Entity<Review>()
-                .HasOne(r => r.Guest)
-                .WithMany(g => g.Reviews)
-                .HasForeignKey(r => r.GuestId);
+            var json = JsonSerializer.Serialize(guests, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, json);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace hotal_DB.Repositories
 {
-    internal interface IRoomRepostory
+    internal interface IRoomRepository
     {
         void AddRoom(Room room);
         void DeleteRoom(int roomId);

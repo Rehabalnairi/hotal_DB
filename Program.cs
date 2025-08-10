@@ -3,8 +3,6 @@ using hotal_DB.Models;
 using hotal_DB.Repositories;
 using hotal_DB.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
 
 namespace hotal_DB
 {
@@ -12,60 +10,54 @@ namespace hotal_DB
     {
         static void Main(string[] args)
         {
-            //  DbContext
-            var serviceProvider = new ServiceCollection()
-                .AddDbContext<HotelContext>(options =>
-                    options.UseSqlServer("Server=.;Database=HotelDB;Trusted_Connection=True;"))
-                .BuildServiceProvider();
+            using HotelContext context = new HotelContext();
+            context.Database.EnsureCreated();
 
-            using (var context = serviceProvider.GetRequiredService<HotelContext>())
+          
+            IGuestRepository guestRepo = new GuestRepository(context);
+            IRoomRepository roomRepo = new RoomRepository(context);
+            IBookingRepository bookingRepo = new BookingRepository(context);
+            IReviewRepository reviewRepo = new ReviewRepository(context);
+
+            bool exit = false;
+            while (!exit)
             {
-                //  (Repositories)
-                var guestRepo = new GuestRepository(context);
-                var roomRepo = new RoomRepostory(context);
-                var bookingRepo = new BookingRepository(context);
-                var reviewRepo = new ReviewRepository(context);
+                Console.Clear();
+                Console.WriteLine("==== Hotel Management System ====");
+                Console.WriteLine("1. Manage Guests");
+                Console.WriteLine("2. Manage Rooms");
+                Console.WriteLine("3. Manage Bookings");
+                Console.WriteLine("4. Manage Reviews");
+                Console.WriteLine("0. Exit");
+                Console.Write("Choose an option: ");
+                var choice = Console.ReadLine();
 
-                bool exit = false;
-                while (!exit)
+                switch (choice)
                 {
-                    Console.Clear();
-                    Console.WriteLine("==== Hotel Management System ====");
-                    Console.WriteLine("1. Manage Guests");
-                    Console.WriteLine("2. Manage Rooms");
-                    Console.WriteLine("3. Manage Bookings");
-                    Console.WriteLine("4. Manage Reviews");
-                    Console.WriteLine("0. Exit");
-                    Console.Write("Choose an option: ");
-                    var choice = Console.ReadLine();
-
-                    switch (choice)
-                    {
-                        case "1":
-                            ManageGuests(guestRepo);
-                            break;
-                        case "2":
-                            ManageRooms(roomRepo);
-                            break;
-                        case "3":
-                            ManageBookings(bookingRepo, guestRepo, roomRepo);
-                            break;
-                        case "4":
-                            ManageReviews(reviewRepo, guestRepo, bookingRepo);
-                            break;
-                        case "0":
-                            exit = true;
-                            break;
-                        default:
-                            Console.WriteLine("Invalid choice. Press any key to try again.");
-                            Console.ReadKey();
-                            break;
-                    }
+                    case "1":
+                        ManageGuests(guestRepo);
+                        break;
+                    case "2":
+                        ManageRooms();
+                        break;
+                    case "3":
+                        ManageBookings(bookingRepo, guestRepo,roomRepo);
+                        break;
+                    case "4":
+                        ManageReviews(reviewRepo, guestRepo, bookingRepo);
+                        break;
+                    case "0":
+                        exit = true;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Press any key to try again.");
+                        Console.ReadKey();
+                        break;
                 }
             }
         }
 
-        static void ManageGuests(GuestRepository guestRepo)
+        static void ManageGuests(IGuestRepository guestRepo)
         {
             Console.Clear();
             Console.WriteLine("=== Guests Management ===");
@@ -123,7 +115,8 @@ namespace hotal_DB
             Console.ReadKey();
         }
 
-        static void ManageRooms(RoomRepostory roomRepo)
+        // user interface IRoomRepository
+        static void ManageRooms(IRoomRepostory roomRepo)
         {
             Console.Clear();
             Console.WriteLine("=== Rooms Management ===");
@@ -189,7 +182,8 @@ namespace hotal_DB
             Console.ReadKey();
         }
 
-        static void ManageBookings(BookingRepository bookingRepo, GuestRepository guestRepo, RoomRepostory roomRepo)
+        // استخدام IBookingRepository و IGuestRepository و IRoomRepository
+        static void ManageBookings(IBookingRepository bookingRepo, IGuestRepository guestRepo, IRoomRepository roomRepo)
         {
             Console.Clear();
             Console.WriteLine("=== Bookings Management ===");
@@ -263,7 +257,8 @@ namespace hotal_DB
             Console.ReadKey();
         }
 
-        static void ManageReviews(ReviewRepository reviewRepo, GuestRepository guestRepo, BookingRepository bookingRepo)
+        //  IReviewRepository, IGuestRepository, IBookingRepository
+        static void ManageReviews(IReviewRepository reviewRepo, IGuestRepository guestRepo, IBookingRepository bookingRepo)
         {
             Console.Clear();
             Console.WriteLine("=== Reviews Management ===");
@@ -316,7 +311,7 @@ namespace hotal_DB
                         Console.WriteLine("Review deleted if existed.");
                     }
                     else
-                    { 
+                    {
                         Console.WriteLine("Invalid input.");
                     }
                     break;
