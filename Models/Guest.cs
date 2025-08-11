@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace hotal_DB.Models
 {
+    
     public class Guest
     {
         [Key]

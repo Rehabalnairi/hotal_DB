@@ -182,7 +182,7 @@ namespace hotal_DB
             Console.ReadKey();
         }
 
-        // استخدام IBookingRepository و IGuestRepository و IRoomRepository
+        //  IBookingRepository و IGuestRepository و IRoomRepository
         static void ManageBookings(IBookingRepository bookingRepo, IGuestRepository guestRepo, IRoomRepository roomRepo)
         {
             Console.Clear();
@@ -257,7 +257,7 @@ namespace hotal_DB
             Console.ReadKey();
         }
 
-        //  IReviewRepository, IGuestRepository, IBookingRepository
+        //  use of IReviewRepository, IGuestRepository, IBookingRepository
         static void ManageReviews(IReviewRepository reviewRepo, IGuestRepository guestRepo, IBookingRepository bookingRepo)
         {
             Console.Clear();

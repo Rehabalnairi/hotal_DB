@@ -6,6 +6,7 @@ using System.Text.Json;
 
 namespace hotal_DB.Data
 {
+    
     public static class FileHotelContext
     {
         private static string filePath = "hotelData.json";
@@ -16,7 +17,7 @@ namespace hotal_DB.Data
                 return new List<Guest>();
 
             var json = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<List<Guest>>(json) ?? new List<Guest>();
+            return JsonSerializer.Deserialize<List<Guest>>(json) ?? new List<Guest>(); 
         }
 
         public static void SaveGuests(List<Guest> guests)
