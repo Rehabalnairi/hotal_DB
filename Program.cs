@@ -38,7 +38,7 @@ namespace hotal_DB
                         ManageGuests(guestRepo);
                         break;
                     case "2":
-                        ManageRooms();
+                        ManageRooms(roomRepo);
                         break;
                     case "3":
                         ManageBookings(bookingRepo, guestRepo,roomRepo);
@@ -116,7 +116,7 @@ namespace hotal_DB
         }
 
         // user interface IRoomRepository
-        static void ManageRooms(IRoomRepostory roomRepo)
+        static void ManageRooms(IRoomRepository roomRepo)
         {
             Console.Clear();
             Console.WriteLine("=== Rooms Management ===");
