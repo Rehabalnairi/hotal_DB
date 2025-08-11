@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace hotal_DB.Models
 {
+    //create class 
     public class Booking
     {
         [Key]
